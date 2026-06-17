@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-# <<<<<<< HEAD
-=======
 
->>>>>>> 574092e5e43f490945c73392201b76809bfab272
 import streamlit as st
 import os
 import pandas as pd

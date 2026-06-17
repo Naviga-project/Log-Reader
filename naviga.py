@@ -1,9 +1,10 @@
-mport streamlit as st     
+import streamlit as st     
 import json
 import os
 from datetime import datetime
 import pandas as pd
 
+# Testing
 
 #========== STYLING THE PAGE ==========
 st.set_page_config(
@@ -52,7 +53,7 @@ def get_folders(folder_path):
         if os.path.isdir(os.path.join(folder_path,item)):
             folders.append(item)
     return folders
-# folder_path = r"D:\NavigaLog"
+folder_path = r"D:\NavigaLog"
 folders = get_folders(folder_path)
 
 
@@ -223,7 +224,7 @@ if "result_df" in st.session_state:
     col4.metric("❌ Errors", total_error)
 
    #==== PAGINATION ====
-    # ROWS_PER_PAGE = 20
+    ROWS_PER_PAGE = 20
     total_pages = max(
         1,
         (len(df) + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE
@@ -262,7 +263,3 @@ if "result_df" in st.session_state:
     )
 
     st.success(f"{len(df)} records found")
-
-
-            
-

@@ -54,14 +54,7 @@ def get_folders(folder_path):
             folders.append(item)
     return folders
 # folder_path = r"D:\NavigaLog"
-<<<<<<< HEAD
-# <<<<<<< HEAD
-# print("folder_path =", folder_path)
-# =======
-# >>>>>>> 738dedd (updated naviga file)
-=======
 
->>>>>>> 0252e7c092166490464681ad897cb5bc16dc76c1
 folders = get_folders(folder_path)
 
 
@@ -273,4 +266,4 @@ if "result_df" in st.session_state:
     st.success(f"{len(df)} records found")
 
 
-# hi betu
+# wht do u mean song , boyfriend

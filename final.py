@@ -249,4 +249,4 @@ if "results_df" in st.session_state:
 
 
 
-# when you hit by stranger
+# yepp , i overthink a lot abt that (^~^) 

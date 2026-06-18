@@ -53,7 +53,8 @@ def get_folders(folder_path):
         if os.path.isdir(os.path.join(folder_path,item)):
             folders.append(item)
     return folders
-folder_path = r"D:\NavigaLog"
+# folder_path = r"D:\NavigaLog"
+# print("folder_path =", folder_path)
 folders = get_folders(folder_path)
 
 

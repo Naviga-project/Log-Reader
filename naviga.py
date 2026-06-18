@@ -265,9 +265,4 @@ if "result_df" in st.session_state:
     )
 
     st.success(f"{len(df)} records found")
-
-
-# tishya shivangi naviga log reader
-
-
-    
+    # hlo i m here 

@@ -1,0 +1,14 @@
+{
+    "default_folder":"D:/NavigaLog",
+    "ROWS_PER_PAGE":20,
+    "error_threshold":2,
+    "check_interval_minutes":1,
+    "email_alert_enabled": true,
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 587,
+    "sender_email": "tishyasinghal04@gmail.com",
+    "sender_password": "uyqwurpmpbflgqop",
+    
+    "receiver_email": "tishyasinghal53@gmail.com"
+}
+

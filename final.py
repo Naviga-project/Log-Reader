@@ -1,4 +1,5 @@
 
+from project import send_error_email
 import streamlit as st
 import os
 import pandas as pd

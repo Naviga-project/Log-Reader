@@ -13,6 +13,5 @@
 
   "sender_email": "yourgmail@gmail.com",
   "sender_password": "your_app_password",
-
   "receiver_email": "admin@example.com"
 }

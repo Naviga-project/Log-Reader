@@ -210,8 +210,4 @@ while True:
 
 
 
-    # fsfcsfanua
-
-
-    
-    # hlo
+    # aur kya hall mdm?

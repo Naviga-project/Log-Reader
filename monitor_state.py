@@ -208,9 +208,4 @@ while True:
         CHECK_INTERVAL * 60
     )
 
-
-
-# gygdrug;idrlgr
-# surgfyui;sghiovh
-# hviudhfpvuifhiv;ofv
-# vudhfviugdg
+# fdgdgtyt8ygt'

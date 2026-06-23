@@ -209,5 +209,9 @@ while True:
     )
 
 
+<<<<<<< HEAD
     
     
+=======
+# hlo my name ...
+>>>>>>> ce8e896b993149afac86277e4a9fea079f63d64d

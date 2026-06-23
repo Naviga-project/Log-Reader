@@ -209,10 +209,4 @@ while True:
     )
 
 
-<<<<<<< HEAD
-    
-    # hloo...
-=======
-
-    # fsfcsfanua
->>>>>>> 13fd3feedcfd7584504974b034f7a9007bc4a86f
+    # hlo

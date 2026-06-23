@@ -11,7 +11,7 @@
   "smtp_server": "smtp.gmail.com",
   "smtp_port": 587,
 
-  "sender_email": "yourgmail@gmail.com",
+  "sender_email": "yourgmails@gmail.com",
   "sender_password": "your_app_password",
   "receiver_email": "admin@example.com"
 }

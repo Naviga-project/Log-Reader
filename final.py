@@ -1,5 +1,10 @@
 
-from project import send_error_email
+
+
+
+
+
+
 import streamlit as st
 import os
 import pandas as pd
@@ -41,23 +46,102 @@ type_options = ["Error", "Info", "Warn"]
 # ==========================================
 # 3. FILTERS (DATES, FOLDERS, TYPES)
 # ==========================================
-col1, col2 = st.columns(2)
+# col1, col2 = st.columns(2)
+
+# with col1:
+#     date_from = st.date_input("DATE FROM")
+#     selected_folder = st.multiselect(
+#         "Select Folder",
+#         options=["All"] + folders,
+#         default=["All"]
+#     )
+
+# with col2:
+#     date_to = st.date_input("DATE TO")
+#     selected_types = st.multiselect(
+#         "Type",
+#         options=["All"] + type_options,
+#         default=["All"]
+#     )
+# ================= HEADER =================
+
+# st.markdown("""
+# <h1 style='text-align:center; color:white;'>
+# 📂 LOG READER DASHBOARD
+# </h1>
+# <hr>
+# """, unsafe_allow_html=True)
+
+
+st.markdown("""
+<style>
+
+.main-header{
+    background:#131921;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.main-header h1{
+    color:white;
+    text-align:center;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="main-header">
+<h1>📂 Log Folder Reader</h1>
+</div>
+""", unsafe_allow_html=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ================= FILTER BAR =================
+
+col1, col2, col3, col4, col5 = st.columns([1,1,1,1,0.7])
 
 with col1:
     date_from = st.date_input("DATE FROM")
+
+with col2:
+    date_to = st.date_input("DATE TO")
+
+with col3:
     selected_folder = st.multiselect(
-        "Select Folder",
+        "SELECT FOLDER",
         options=["All"] + folders,
         default=["All"]
     )
 
-with col2:
-    date_to = st.date_input("DATE TO")
+with col4:
     selected_types = st.multiselect(
-        "Type",
+        "TYPE",
         options=["All"] + type_options,
         default=["All"]
     )
+
+with col5:
+    # st.write("")
+    st.write("")
+    search_btn = st.button("🔍 Search",key="search")
+
+# st.button("🔍 Search", key="search1")
+
+# st.button("🔍 Search", key="search2")
 
 # Handle "All" selections
 folders_to_search = folders if "All" in selected_folder else selected_folder
@@ -143,29 +227,87 @@ if st.button("🔍 Search"):
                 # ==========================================
 # 5. DASHBOARD & PAGINATION DISPLAY
 # ==========================================
-if "results_df" in st.session_state:
+# if "results_df" in st.session_state:
 
-    df = st.session_state["results_df"]
+#     df = st.session_state["results_df"]
 
-    # --- TOP DASHBOARD METRICS ---
-    st.markdown("### 📊 Overall Log Summary")
+#     # --- TOP DASHBOARD METRICS ---
+#     st.markdown("### 📊 Overall Log Summary")
 
-    error_total = len(df[df["Log Type"].str.contains("ERROR", case=False, na=False)])
-    warn_total = len(df[df["Log Type"].str.contains("WARN", case=False, na=False)])
-    info_total = len(df[df["Log Type"].str.contains("INFO", case=False, na=False)])
+#     # error_total = len(df[df["Log Type"].str.contains("ERROR", case=False, na=False)])
+#     # warn_total = len(df[df["Log Type"].str.contains("WARN", case=False, na=False)])
+    # info_total = len(df[df["Log Type"].str.contains("INFO", case=False, na=False)])
 
-    col1, col2, col3 = st.columns(3)
+    # col1, col2, col3 = st.columns(3)
+
+    # with col1:
+    #     st.metric("🚨 Total Errors", error_total)
+
+    # with col2:
+    #     st.metric("⚠️ Total Warnings", warn_total)
+
+    # with col3:
+    #     st.metric("ℹ️ Total Info", info_total)
+
+    # st.markdown("---")
+# col1, col2, col3, col4 = st.columns(4)
+
+# with col1:
+#     st.info(f"📄 Total Logs\n\n# {total_logs}")
+
+# with col2:
+#     st.success(f"ℹ️ Info\n\n# {total_info}")
+
+# with col3:
+#     st.warning(f"⚠️ Warning\n\n# {total_warn}")
+
+# with col4:
+#     st.error(f"❌ Errors\n\n# {total_error}")
+
+if "result_df" in st.session_state:
+
+    df = st.session_state["result_df"]
+
+    total_logs = len(df)
+    total_error = len(df[df["Log Type"].str.upper() == "ERROR"])
+    total_warn = len(df[df["Log Type"].str.upper() == "WARN"])
+    total_info = len(df[df["Log Type"].str.upper() == "INFO"])
+
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        st.metric("🚨 Total Errors", error_total)
+        st.info(f"📄 Total Logs\n\n# {total_logs}")
 
     with col2:
-        st.metric("⚠️ Total Warnings", warn_total)
+        st.success(f"ℹ️ Info\n\n# {total_info}")
 
     with col3:
-        st.metric("ℹ️ Total Info", info_total)
+        st.warning(f"⚠️ Warning\n\n# {total_warn}")
 
-    st.markdown("---")
+    with col4:
+        st.error(f"❌ Errors\n\n# {total_error}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     # ==========================================
     # PAGINATION

@@ -57,7 +57,7 @@ def get_folders(folder_path):
             folders.append(item)
     return folders
 # folder_path = r"D:\NavigaLog"
-folder_path = r"D:\NavigaLog"
+
 
 folders = get_folders(folder_path)
 

@@ -7,7 +7,7 @@ from datetime import date
 # PAGE CONFIG
 # -----------------------------
 st.set_page_config(
-    page_title="Log Folder Reader",
+    page_title="Log Reader",
     page_icon="📁",
     layout="wide"
 )
@@ -155,7 +155,7 @@ h1{
 # HEADER
 # -----------------------------
 st.markdown(
-    '<div class="title-box">📁 Log Folder Reader</div>',
+    '<div class="title-box">📁 Log Reader </div>',
     unsafe_allow_html=True
 )
 
@@ -317,6 +317,35 @@ if st.session_state.search_done:
 
     if "page" not in st.session_state:
         st.session_state.page = 1
+    st.markdown("""
+    <style>
+
+    /* Keep dataframe toolbar visible */
+    [data-testid="stDataFrame"] [data-testid="stElementToolbar"] {
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+    }
+
+    /* Keep toolbar visible even when not hovering */
+    [data-testid="stDataFrame"] .stElementToolbar {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+    st.markdown("""
+    <h3 style='
+    text-align:center;
+    background-color:#1f4e79;
+    color:white;
+    padding:10px;
+    border-radius:10px;'>
+    📊Results
+    </h3>
+    """, unsafe_allow_html=True)
+
 
         # -------------------------
     # TABLE

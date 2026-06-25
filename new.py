@@ -12,7 +12,7 @@ st.set_page_config(
     layout="wide"
 )
 
-folder_path = r"D:\NavigaLog"
+folder_path = r"D:\Coding\gauri\NavigaLog"
 
 # -----------------------------
 # CUSTOM CSS

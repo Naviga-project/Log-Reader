@@ -396,7 +396,14 @@ if search_clicked:
             st.session_state.page = 1
 
         else:
-            st.warning("No matching logs found.")  
+            st.warning("⚠️ No matching logs found.")
+
+            # Remove previous search results
+            if "result_df" in st.session_state:
+                del st.session_state["result_df"]
+
+            if "page" in st.session_state:
+                del st.session_state["page"]
 
 
 # ================= DASHBOARD =================

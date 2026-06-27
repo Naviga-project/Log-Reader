@@ -3,23 +3,19 @@ import json
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-
-# Load config
+# Load configuration
 with open("config.json", "r") as file:
     config = json.load(file)
 
 
 def send_email(subject, body):
-    """
-    Sends an email using the settings in config.json
-    """
 
-    if not config.get("email_alert_enabled", False):
-        print("Email alerts are disabled.")
+    if not config["email_alert_enabled"]:
         return
 
     try:
         msg = MIMEMultipart()
+
         msg["From"] = config["sender_email"]
         msg["To"] = config["receiver_email"]
         msg["Subject"] = subject
@@ -39,10 +35,10 @@ def send_email(subject, body):
         )
 
         server.send_message(msg)
+
         server.quit()
 
-        print("✅ Alert email sent successfully.")
+        print("✅ Email Sent Successfully")
 
     except Exception as e:
-        print(f"❌ Failed to send email: {e}")
-        
+        print("Email Error:", e)

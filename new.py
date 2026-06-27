@@ -132,11 +132,7 @@ st.markdown("""
 /* Card Titles */
 .metric-title{
     color:#38bdf8;
-<<<<<<< HEAD
-    font-size:20px;
-=======
     font-size:25px;
->>>>>>> 2e24f66a67976f13df5209605d8b383d991b8f08
     font-weight:bold;
 }
 

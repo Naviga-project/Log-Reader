@@ -225,7 +225,7 @@ if "result_df" in st.session_state:
     col4.metric("❌ Errors", total_error)
 
    #==== PAGINATION ====
-    ROWS_PER_PAGE = 20
+    # ROWS_PER_PAGE = 20
     total_pages = max(
         1,
         (len(df) + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE

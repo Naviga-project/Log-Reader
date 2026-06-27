@@ -12,8 +12,7 @@ st.set_page_config(
     layout="wide"
 )
 
-folder_path = r"D:\Coding\gauri\NavigaLog"
-
+folder_path = r"D:\NavigaLog"
 
 # -----------------------------
 # CUSTOM CSS
@@ -132,11 +131,7 @@ st.markdown("""
 /* Card Titles */
 .metric-title{
     color:#38bdf8;
-<<<<<<< HEAD
-    font-size:20px;
-=======
     font-size:25px;
->>>>>>> 2e24f66a67976f13df5209605d8b383d991b8f08
     font-weight:bold;
 }
 
@@ -229,14 +224,13 @@ if st.session_state.search_done:
     rows = 500
 
     df = pd.DataFrame({
-        "𝐃𝐀𝐓𝐄":[f"20260317_02:37:{i%60:02d},715" for i in range(rows)],
-        "𝐋𝐨𝐠 𝐓𝐲𝐩𝐞":["INFO"]*rows,
-         "𝐒𝐨𝐮𝐫𝐜𝐞":["Applepay"]*rows,
-        "𝐒𝐞𝐬𝐬𝐢𝐨𝐧":[f"TestClient.{i}" for i in range(rows)],
-         "𝐌𝐞𝐭𝐡𝐨𝐝":["subscriptionpanel"]*rows,
-        "𝐃𝐞𝐭𝐚𝐢𝐥𝐬":["Bearer XXXXXXXX TOKEN"]*rows
+        "DATE":[f"20260317_02:37:{i%60:02d},715" for i in range(rows)],
+        "Log Type":["INFO"]*rows,
+        "Source":["Applepay"]*rows,
+        "Session":[f"TestClient.{i}" for i in range(rows)],
+        "Method":["subscriptionpanel"]*rows,
+        "Details":["Bearer XXXXXXXX TOKEN"]*rows
     })
-
 
     st.divider()
 
@@ -295,7 +289,7 @@ if st.session_state.search_done:
         int(np.ceil(len(df)/PAGE_SIZE))
     )
 
-    left,mid,right = st.columns([1,1,1])
+    left,mid,right = st.columns([1,3,1])
 
     with left:
         if st.button("⬅ Previous"):
@@ -304,19 +298,9 @@ if st.session_state.search_done:
 
     with mid:
         st.markdown(
-            f"""
-            <div style='
-            text-align:centre;
-            color:#38bdf8;
-            font-size:30px;
-            font-weight:bold;
-            '>
-              page {st.session_state.page} of {total_pages}
-              </div>
-              """,
-              unsafe_allow_html=True
+            f"<h1 style='text-align:center;color:white;'>Page {st.session_state.page} of {total_pages}</h1>",
+            unsafe_allow_html=True
         )
-
 
     with right:
         if st.button("Next ➡"):
@@ -348,8 +332,6 @@ if st.session_state.search_done:
         opacity: 1 !important;
         visibility: visible !important;
     }
-                
-             
 
     </style>
     """, unsafe_allow_html=True)
@@ -368,19 +350,12 @@ if st.session_state.search_done:
         # -------------------------
     # TABLE
     # -------------------------
-
-
-
-
-        # -------------------------
-    # TABLE
-    # ------------------------
     st.dataframe(
         df.iloc[start:end],
         use_container_width=True,
         height=600
     )
-    
+
 # else:
 
 st.info(

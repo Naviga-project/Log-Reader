@@ -194,11 +194,6 @@ def get_folders(folder_path):
             folders.append(item)
     return folders
 
-# folder_path = r"D:\NavigaLog"
-folder_path = r"D:\Coding\gauri\NavigaLog"
-
-
-
 folders = get_folders(folder_path)
 
 # #========== TYPE FILTER ==========
@@ -303,6 +298,7 @@ if search_clicked:
     if date_from > date_to:
         st.error("Invalid date range!")
         st.stop()
+
     else:
 
         results = []
@@ -371,7 +367,7 @@ if search_clicked:
                                         results.append([
                                             parts[0],  # Timestamp
                                             parts[1],  # Log Type
-                                            os.path.basename(root),  # Source
+                                            folder,  # Source
                                             parts[3],  # Session
                                             parts[4],  # Method
                                             parts[5][:100]  # Details (shortened)
@@ -394,106 +390,141 @@ if search_clicked:
                 ]
             )
 
+            # -------------------------
+            # DASHBOARD
+            # -------------------------
+
+            c1,c2,c3,c4 = st.columns(4)
+
+            with c1:
+                st.markdown("""
+                <div class="metric-card">
+                    <div class="metric-title">📄 Total Logs</div>
+                    <div class="metric-value">16376</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with c2:
+                st.markdown("""
+                <div class="metric-card">
+                    <div class="metric-title">ℹ️ Info</div>
+                    <div class="metric-value">16344</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with c3:
+                st.markdown("""
+                <div class="metric-card">
+                    <div class="metric-title">⚠️ Warnings</div>
+                    <div class="metric-value">0</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with c4:
+                st.markdown("""
+                <div class="metric-card">
+                    <div class="metric-title">❌ Errors</div>
+                    <div class="metric-value">32</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            st.write("")
+
+
            # Save DataFrame
             st.session_state["result_df"] = df
+            st.session_state.search_done = True
+            
+            if "result_df" in st.session_state:
 
-            # Reset page when new search is performed
-            st.session_state.page = 1
+                df = st.session_state["result_df"]
 
+                # ROWS_PER_PAGE = 20
+                total_pages = max(
+                    1,
+                    (len(df) + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE
+                )
+
+                if "page" not in st.session_state:
+                    st.session_state.page = 1
+
+                # -------------------------
+                # PAGINATION ABOVE TABLE
+                # -------------------------
+
+                left, mid, right = st.columns([1, 3, 1])
+
+                with left:
+                    if st.button("⬅ Previous"):
+                        if st.session_state.page > 1:
+                            st.session_state.page -= 1
+
+                with mid:
+                    st.markdown(
+                        f"""
+                        <h3 style='text-align:center;color:white;'>
+                        Page {st.session_state.page} of {total_pages}
+                        </h3>
+                        """,
+                        unsafe_allow_html=True
+                    )
+
+                with right:
+                    if st.button("Next ➡"):
+                        if st.session_state.page < total_pages:
+                            st.session_state.page += 1
+
+                start_idx = (
+                    (st.session_state.page - 1)
+                    * ROWS_PER_PAGE
+                )
+
+                end_idx = start_idx + ROWS_PER_PAGE
+
+                page_df = df.iloc[start_idx:end_idx]
+
+                # -------------------------
+                # RESULTS HEADING
+                # -------------------------
+
+                st.markdown("""
+                <h3 style='
+                text-align:center;
+                background-color:#1f4e79;
+                color:white;
+                padding:10px;
+                border-radius:10px;'>
+                📊 Results
+                </h3>
+                """, unsafe_allow_html=True)
+
+
+
+            st.markdown("""
+                <style>
+
+                /* Keep dataframe toolbar visible */
+                [data-testid="stDataFrame"] [data-testid="stElementToolbar"] {
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                    display: flex !important;
+                }
+
+                /* Keep toolbar visible even when not hovering */
+                [data-testid="stDataFrame"] .stElementToolbar {
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                }
+
+                </style>
+                """, unsafe_allow_html=True)
+            
+            
+
+            st.dataframe(
+                    page_df,
+                    use_container_width=True,
+                    hide_index=True
+                )
         else:
-            st.warning("No matching logs found.")  
-
-
-# ================= DASHBOARD =================
-
-if "result_df" in st.session_state:
-
-    df = st.session_state["result_df"]
-
-    total_logs = len(df)
-    total_error = len(df[df["Log Type"].str.upper() == "ERROR"])
-    total_warn = len(df[df["Log Type"].str.upper() == "WARN"])
-    total_info = len(df[df["Log Type"].str.upper() == "INFO"])
-
-    col1, col2, col3, col4 = st.columns(4)
-
-    col1.metric("📄 Total Logs", total_logs)
-    col2.metric("ℹ️ Info", total_info)
-    col3.metric("⚠️ Warnings", total_warn)
-    col4.metric("❌ Errors", total_error)
-
-   #==== PAGINATION ====
-    # ROWS_PER_PAGE = 20
-    total_pages = max(
-        1,
-        (len(df) + ROWS_PER_PAGE - 1) // ROWS_PER_PAGE
-    )
-
-    if "page" not in st.session_state:
-        st.session_state.page = 1
-
-    col1, col2, col3 = st.columns([1, 2, 1])
-
-    with col1:
-        if st.button("⬅ Previous"):
-            if st.session_state.page > 1:
-                st.session_state.page -= 1
-
-    with col3:
-        if st.button("Next ➡"):
-            if st.session_state.page < total_pages:
-                st.session_state.page += 1
-
-    with col2:
-        st.markdown(
-            f"<center><h4>Page {st.session_state.page} of {total_pages}</h4></center>",
-            unsafe_allow_html=True
-        )
-
-    start_idx = (st.session_state.page - 1) * ROWS_PER_PAGE
-    end_idx = start_idx + ROWS_PER_PAGE
-
-    page_df = df.iloc[start_idx:end_idx]
-
-
-
-    if "page" not in st.session_state:
-        st.session_state.page = 1
-    st.markdown("""
-    <style>
-
-    /* Keep dataframe toolbar visible */
-    [data-testid="stDataFrame"] [data-testid="stElementToolbar"] {
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: flex !important;
-    }
-
-    /* Keep toolbar visible even when not hovering */
-    [data-testid="stDataFrame"] .stElementToolbar {
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-
-    </style>
-    """, unsafe_allow_html=True)
-    st.markdown("""
-    <h3 style='
-    text-align:center;
-    background-color:#1f4e79;
-    color:white;
-    padding:10px;
-    border-radius:10px;'>
-    📊Results
-    </h3>
-    """, unsafe_allow_html=True)
-
-    st.dataframe(
-        page_df,
-        use_container_width=True,
-        hide_index=True
-    )
-
-    st.success(f"{len(df)} records found")
-
-
+            st.warning("⚠️ No matching logs found.")

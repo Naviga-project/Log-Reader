@@ -264,7 +264,7 @@ with col4:
 
     log_type = st.multiselect(
         "TYPE",
-        ["All", "INFO", "WARNING", "ERROR"],
+        ["All", "INFO", "WARN", "ERROR"],
         default=["All"],
         key="type_select",
         on_change=type_changed
@@ -421,7 +421,7 @@ if "result_df" in st.session_state:
 
     col1.metric("📄 Total Logs", total_logs)
     col2.metric("ℹ️ Info", total_info)
-    col3.metric("⚠️ Warnings", total_warn)
+    col3.metric("⚠️ Warn", total_warn)
     col4.metric("❌ Errors", total_error)
 
    #==== PAGINATION ====

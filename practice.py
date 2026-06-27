@@ -57,7 +57,11 @@ def get_folders(folder_path):
             folders.append(item)
     return folders
 # folder_path = r"D:\NavigaLog"
+<<<<<<< HEAD
 folder_path = r"D:\Coding\gauri\NavigaLog"
+=======
+
+>>>>>>> 9172056987a794c4ed58ba7cd94c3be2c4dc1ac0
 
 folders = get_folders(folder_path)
 

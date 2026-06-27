@@ -7,12 +7,13 @@ from datetime import date
 # PAGE CONFIG
 # -----------------------------
 st.set_page_config(
-    page_title="Log Folder Reader",
+    page_title="Log Reader",
     page_icon="📁",
     layout="wide"
 )
 
 folder_path = r"D:\Coding\gauri\NavigaLog"
+
 
 # -----------------------------
 # CUSTOM CSS
@@ -131,14 +132,14 @@ st.markdown("""
 /* Card Titles */
 .metric-title{
     color:#38bdf8;
-    font-size:24px;
+    font-size:20px;
     font-weight:bold;
 }
 
 /* Card Values */
 .metric-value{
     color:white;
-    font-size:54px;
+    font-size:20px;
     font-weight:bold;
 }
 
@@ -155,7 +156,7 @@ h1{
 # HEADER
 # -----------------------------
 st.markdown(
-    '<div class="title-box">📁 Log Folder Reader</div>',
+    '<div class="title-box">📁 Log Reader </div>',
     unsafe_allow_html=True
 )
 
@@ -224,13 +225,14 @@ if st.session_state.search_done:
     rows = 500
 
     df = pd.DataFrame({
-        "DATE":[f"20260317_02:37:{i%60:02d},715" for i in range(rows)],
-        "Log Type":["INFO"]*rows,
-        "Source":["Applepay"]*rows,
-        "Session":[f"TestClient.{i}" for i in range(rows)],
-        "Method":["subscriptionpanel"]*rows,
-        "Details":["Bearer XXXXXXXX TOKEN"]*rows
+        "𝐃𝐀𝐓𝐄":[f"20260317_02:37:{i%60:02d},715" for i in range(rows)],
+        "𝐋𝐨𝐠 𝐓𝐲𝐩𝐞":["INFO"]*rows,
+         "𝐒𝐨𝐮𝐫𝐜𝐞":["Applepay"]*rows,
+        "𝐒𝐞𝐬𝐬𝐢𝐨𝐧":[f"TestClient.{i}" for i in range(rows)],
+         "𝐌𝐞𝐭𝐡𝐨𝐝":["subscriptionpanel"]*rows,
+        "𝐃𝐞𝐭𝐚𝐢𝐥𝐬":["Bearer XXXXXXXX TOKEN"]*rows
     })
+
 
     st.divider()
 
@@ -289,7 +291,7 @@ if st.session_state.search_done:
         int(np.ceil(len(df)/PAGE_SIZE))
     )
 
-    left,mid,right = st.columns([1,3,1])
+    left,mid,right = st.columns([1,1,1])
 
     with left:
         if st.button("⬅ Previous"):
@@ -298,9 +300,19 @@ if st.session_state.search_done:
 
     with mid:
         st.markdown(
-            f"<h1 style='text-align:center;color:white;'>Page {st.session_state.page} of {total_pages}</h1>",
-            unsafe_allow_html=True
+            f"""
+            <div style='
+            text-align:centre;
+            color:#38bdf8;
+            font-size:30px;
+            font-weight:bold;
+            '>
+              page {st.session_state.page} of {total_pages}
+              </div>
+              """,
+              unsafe_allow_html=True
         )
+
 
     with right:
         if st.button("Next ➡"):
@@ -317,16 +329,54 @@ if st.session_state.search_done:
 
     if "page" not in st.session_state:
         st.session_state.page = 1
+    st.markdown("""
+    <style>
+
+    /* Keep dataframe toolbar visible */
+    [data-testid="stDataFrame"] [data-testid="stElementToolbar"] {
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+    }
+
+    /* Keep toolbar visible even when not hovering */
+    [data-testid="stDataFrame"] .stElementToolbar {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+                
+             
+
+    </style>
+    """, unsafe_allow_html=True)
+    st.markdown("""
+    <h3 style='
+    text-align:center;
+    background-color:#1f4e79;
+    color:white;
+    padding:10px;
+    border-radius:10px;'>
+    📊Results
+    </h3>
+    """, unsafe_allow_html=True)
+
 
         # -------------------------
     # TABLE
     # -------------------------
+
+
+
+
+        # -------------------------
+    # TABLE
+    # ------------------------
     st.dataframe(
         df.iloc[start:end],
         use_container_width=True,
         height=600
     )
-
+    
 # else:
 
 st.info(

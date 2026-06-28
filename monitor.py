@@ -1,44 +1,68 @@
-import time
+import os
 import json
-
-from monitor_state import check_all_logs
-from email_alert import send_email
 
 # Load config
 with open("config.json", "r") as file:
     config = json.load(file)
 
-CHECK_INTERVAL = config["check_interval_minutes"] * 60
-THRESHOLD = config["error_threshold"]
+LOG_FOLDER = config["default_folder"]
 
-print("Log Monitor Started...")
+POSITIONS_FILE = "positions.json"
 
-while True:
+# Load previous positions
+if os.path.exists(POSITIONS_FILE):
+    with open(POSITIONS_FILE, "r") as file:
+        positions = json.load(file)
+else:
+    positions = {}
 
-    folder_errors = check_all_logs()
 
-    for folder, errors in folder_errors.items():
+def check_all_logs():
 
-        if errors > THRESHOLD:
+    folder_errors = {}
 
-            subject = f"⚠️ Error Alert - {folder}"
+    for folder in os.listdir(LOG_FOLDER):
 
-            body = f"""
-Error limit exceeded!
+        folder_path = os.path.join(LOG_FOLDER, folder)
 
-Folder Name : {folder}
+        if not os.path.isdir(folder_path):
+            continue
 
-Total Errors : {errors}
+        error_count = 0
 
-Threshold : {THRESHOLD}
+        for root, dirs, files in os.walk(folder_path):
 
-Please check the log files.
-"""
+            for file in files:
 
-            send_email(subject, body)
+                if not (file.endswith(".log") or file.endswith(".txt")):
+                    continue
 
-            print(f"Email sent for {folder}")
+                file_path = os.path.join(root, file)
 
-    print(f"Waiting {config['check_interval_minutes']} minutes...")
+                try:
 
-    time.sleep(CHECK_INTERVAL)
+                    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+
+                        # Read only new content
+                        last_position = positions.get(file_path, 0)
+
+                        f.seek(last_position)
+
+                        for line in f:
+
+                            if "ERROR" in line.upper():
+                                error_count += 1
+
+                        # Save new position
+                        positions[file_path] = f.tell()
+
+                except Exception as e:
+                    print(f"Error reading {file_path}: {e}")
+
+        folder_errors[folder] = error_count
+
+    # Save updated positions
+    with open(POSITIONS_FILE, "w") as file:
+        json.dump(positions, file, indent=4)
+
+    return folder_errors
